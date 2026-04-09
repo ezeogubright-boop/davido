@@ -1,6 +1,6 @@
-# Playza Template
+# Davido - Afro-Beat Music Artist
 
-A high-impact, immersive single-page website template designed for music artists, bands, and entertainment brands. Features a dark cyberpunk aesthetic with neon accents, 3D album cube, parallax galleries, and smooth scroll-driven animations.
+A high-impact, immersive single-page website designed for Davido's Afro-Beat music career. Features a dark cyberpunk aesthetic with neon accents, 3D album cube, parallax galleries, and smooth scroll-driven animations showcasing tour dates and music releases.
 
 ## Language
 
