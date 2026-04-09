@@ -30,13 +30,17 @@ const NewsletterModal = ({ isOpen, onClose, message = "Thank you for subscribing
       y: 0,
       duration: 0.5,
       ease: 'back.out(1.7)',
-    }, 0)
+    }, 0);
+
     // Pulse the check icon
-    .to(contentRef.current?.querySelector('.check-icon'), {
-      scale: 1.2,
-      duration: 0.5,
-      ease: 'elastic.out',
-    }, 0.3);
+    const checkIcon = contentRef.current?.querySelector('.check-icon');
+    if (checkIcon) {
+      tl.to(checkIcon, {
+        scale: 1.2,
+        duration: 0.5,
+        ease: 'elastic.out',
+      }, 0.3);
+    }
 
     // Auto close after 4 seconds
     const timer = setTimeout(() => {
