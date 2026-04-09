@@ -102,19 +102,19 @@ const Hero = () => {
       {/* Navigation pill */}
       <nav
         ref={navRef}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-50 nav-pill rounded-full px-2 py-2"
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 nav-pill rounded-full px-2 py-1.5 md:px-3 md:py-2"
       >
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 md:gap-1.5">
           {heroConfig.navItems.map((item) => {
             const IconComponent = ICON_MAP[item.icon];
             return (
               <button
                 key={item.sectionId}
                 onClick={() => scrollToSection(item.sectionId)}
-                className="flex items-center gap-2 px-4 py-2 text-xs font-mono-custom uppercase tracking-wider text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/5"
+                className="flex items-center gap-1 md:gap-2 px-2 py-1.5 md:px-4 md:py-2 text-xs font-mono-custom uppercase tracking-wider text-white/80 hover:text-white transition-colors rounded-full hover:bg-white/5"
               >
-                <IconComponent className="w-3.5 h-3.5" />
-                <span>{item.label}</span>
+                <IconComponent className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                <span className="hidden md:inline">{item.label}</span>
               </button>
             );
           })}
@@ -124,7 +124,7 @@ const Hero = () => {
       {/* Hero content */}
       <div className="relative z-10 flex flex-col items-center justify-end h-full pb-20 px-4">
         {/* Logo / Brand */}
-        <div className="absolute top-8 left-8">
+        <div className="absolute top-8 left-2">
           <div className="flex items-center gap-2">
             <img src="/Davido-Head-logo.svg" alt="Davido Logo" className="w-8 h-8" />
             <span className="font-display text-lg text-white">{heroConfig.brandName}</span>
@@ -150,10 +150,10 @@ const Hero = () => {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex gap-4">
+        <div className="flex gap-3 md:gap-4">
           <button
             onClick={() => scrollToSection(heroConfig.ctaPrimaryTarget)}
-            className="liquid-glass-btn px-8 py-3 bg-white/10 backdrop-blur-md text-white font-display text-sm uppercase tracking-wider rounded-full border border-white/20 hover:bg-white/15 hover:border-neon-cyan/40 hover:shadow-[0_0_25px_rgba(0,212,255,0.3)] transition-all duration-300"
+            className="liquid-glass-btn px-6 py-2.5 md:px-8 md:py-3 bg-white/10 backdrop-blur-md text-white font-display text-sm uppercase tracking-wider rounded-full border border-white/20 hover:bg-white/15 hover:border-neon-cyan/40 hover:shadow-[0_0_25px_rgba(0,212,255,0.3)] transition-all duration-300"
             onMouseMove={(e) => {
               const rect = e.currentTarget.getBoundingClientRect();
               const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -166,7 +166,7 @@ const Hero = () => {
           </button>
           <button
             onClick={() => scrollToSection(heroConfig.ctaSecondaryTarget)}
-            className="px-8 py-3 border border-white/30 text-white font-display text-sm uppercase tracking-wider rounded-full hover:border-neon-cyan hover:text-neon-cyan transition-colors duration-300"
+            className="px-6 py-2.5 md:px-8 md:py-3 border border-white/30 text-white font-display text-sm uppercase tracking-wider rounded-full hover:border-neon-cyan hover:text-neon-cyan transition-colors duration-300"
           >
             {heroConfig.ctaSecondary}
           </button>

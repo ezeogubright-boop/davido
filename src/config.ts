@@ -143,11 +143,10 @@ export const parallaxGalleryConfig: ParallaxGalleryConfig = {
   galleryLabel: "LIVE GALLERY",
   galleryTitle: "Tour Memories",
   marqueeTexts: [
-    "NEON PULSE",
-    "ELECTRONIC EXPERIENCE",
-    "CYBERPUNK SOUNDS",
-    "IMMERSIVE AUDIO",
-    "FUTURE MUSIC",
+    "KING OF AFRO BEAT",
+    "001",
+    "30BG",
+    "WE RISE BY LIFTING OTHERS",
   ],
   endCtaText: "Join the Experience",
   parallaxImagesTop: [

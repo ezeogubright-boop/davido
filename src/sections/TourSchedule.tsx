@@ -14,12 +14,52 @@ const TourSchedule = () => {
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLParagraphElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const [activeVenue, setActiveVenue] = useState<number>(0);
   const [isVisible, setIsVisible] = useState(false);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Header label animation
+      if (labelRef.current) {
+        gsap.fromTo(
+          labelRef.current,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: labelRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      // Header title animation
+      if (titleRef.current) {
+        gsap.fromTo(
+          titleRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+              trigger: titleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+    }, sectionRef);
 
     const st = ScrollTrigger.create({
       trigger: sectionRef.current,
@@ -30,6 +70,7 @@ const TourSchedule = () => {
     scrollTriggerRef.current = st;
 
     return () => {
+      ctx.revert();
       st.kill();
     };
   }, []);
@@ -38,17 +79,28 @@ const TourSchedule = () => {
     if (!isVisible || !contentRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        contentRef.current?.querySelectorAll('.tour-item') || [],
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-        }
-      );
+      const items = contentRef.current?.querySelectorAll('.tour-item') || [];
+      
+      items.forEach((item, index) => {
+        const isEven = index % 2 === 0;
+        
+        gsap.fromTo(
+          item,
+          {
+            opacity: 0,
+            x: isEven ? -50 : 50, // Alternate slide from left and right
+            y: 30,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            duration: 0.7,
+            delay: index * 0.12,
+            ease: 'power3.out',
+          }
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -90,10 +142,10 @@ const TourSchedule = () => {
       <div ref={contentRef} className="relative z-20 max-w-7xl mx-auto px-6 md:px-12">
         {/* Section header */}
         <div className="mb-16">
-          <p className="font-mono-custom text-xs text-[#1F1F1F]/60 uppercase tracking-wider mb-2">
+          <p ref={labelRef} className="font-mono-custom text-xs text-[#1F1F1F]/60 uppercase tracking-wider mb-2">
             {tourScheduleConfig.sectionLabel}
           </p>
-          <h2 className="font-display text-5xl md:text-7xl text-[#1F1F1F]">
+          <h2 ref={titleRef} className="font-display text-5xl md:text-7xl text-[#1F1F1F]">
             {tourScheduleConfig.sectionTitle}
           </h2>
         </div>

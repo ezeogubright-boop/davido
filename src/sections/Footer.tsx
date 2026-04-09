@@ -23,6 +23,12 @@ const Footer = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const portraitRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const brandSectionRef = useRef<HTMLDivElement>(null);
+  const quickLinksSectionRef = useRef<HTMLDivElement>(null);
+  const contactSectionRef = useRef<HTMLDivElement>(null);
+  const newsletterSectionRef = useRef<HTMLDivElement>(null);
   const [hoveredImage, setHoveredImage] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const scrollTriggerRefs = useRef<ScrollTrigger[]>([]);
@@ -31,6 +37,70 @@ const Footer = () => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      // Title animations
+      if (heroTitleRef.current) {
+        gsap.fromTo(
+          heroTitleRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+              trigger: heroTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      // Subtitle animation
+      if (subtitleRef.current) {
+        gsap.fromTo(
+          subtitleRef.current,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: subtitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      // Footer sections staggered animations
+      const footerSections = [
+        { ref: brandSectionRef.current, delay: 0 },
+        { ref: quickLinksSectionRef.current, delay: 0.1 },
+        { ref: contactSectionRef.current, delay: 0.2 },
+        { ref: newsletterSectionRef.current, delay: 0.3 },
+      ];
+
+      footerSections.forEach(({ ref, delay }) => {
+        if (ref) {
+          gsap.fromTo(
+            ref,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              delay: delay,
+              scrollTrigger: {
+                trigger: ref,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+            }
+          );
+        }
+      });
+
       // Parallax title effect
       if (titleRef.current && portraitRef.current) {
         const st = ScrollTrigger.create({
@@ -92,10 +162,10 @@ const Footer = () => {
           ref={titleRef}
           className="relative z-10 text-center will-change-transform"
         >
-          <h2 className="font-display text-[15vw] text-white leading-none tracking-tighter">
+          <h2 ref={heroTitleRef} className="font-display text-[15vw] text-white leading-none tracking-tighter">
             {footerConfig.heroTitle}
           </h2>
-          <p className="font-mono-custom text-lg text-neon-soft/60 uppercase tracking-[0.5em] mt-4">
+          <p ref={subtitleRef} className="font-mono-custom text-lg text-neon-soft/60 uppercase tracking-[0.5em] mt-4">
             {footerConfig.heroSubtitle}
           </p>
         </div>
@@ -119,7 +189,7 @@ const Footer = () => {
           {/* Footer grid - Main content */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             {/* Brand */}
-            <div>
+            <div ref={brandSectionRef}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-neon-cyan/20 flex items-center justify-center">
                   <Music2 className="w-5 h-5 text-neon-cyan" />
@@ -148,7 +218,7 @@ const Footer = () => {
             </div>
 
             {/* Quick Links */}
-            <div>
+            <div ref={quickLinksSectionRef}>
               <h4 className="font-display text-sm uppercase tracking-wider text-white mb-6">
                 {footerConfig.quickLinksTitle}
               </h4>
@@ -168,7 +238,7 @@ const Footer = () => {
             </div>
 
             {/* Contact */}
-            <div>
+            <div ref={contactSectionRef}>
               <h4 className="font-display text-sm uppercase tracking-wider text-white mb-6">
                 {footerConfig.contactTitle}
               </h4>
@@ -200,7 +270,7 @@ const Footer = () => {
             </div>
 
             {/* Newsletter */}
-            <div>
+            <div ref={newsletterSectionRef}>
               <h4 className="font-display text-sm uppercase tracking-wider text-white mb-6">
                 {footerConfig.newsletterTitle}
               </h4>

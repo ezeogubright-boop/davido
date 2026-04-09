@@ -22,12 +22,86 @@ const ParallaxGallery = () => {
   const bottomRowRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const galleryTrackRef = useRef<HTMLDivElement>(null);
+  const sectionLabelRef = useRef<HTMLParagraphElement>(null);
+  const sectionTitleRef = useRef<HTMLHeadingElement>(null);
+  const galleryLabelRef = useRef<HTMLParagraphElement>(null);
+  const galleryTitleRef = useRef<HTMLHeadingElement>(null);
   const scrollTriggerRefs = useRef<ScrollTrigger[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      // Parallax section header animations
+      if (sectionLabelRef.current) {
+        gsap.fromTo(
+          sectionLabelRef.current,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: sectionLabelRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      if (sectionTitleRef.current) {
+        gsap.fromTo(
+          sectionTitleRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+              trigger: sectionTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      // Gallery section header animations
+      if (galleryLabelRef.current) {
+        gsap.fromTo(
+          galleryLabelRef.current,
+          { opacity: 0, x: -30 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: galleryLabelRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      if (galleryTitleRef.current) {
+        gsap.fromTo(
+          galleryTitleRef.current,
+          { opacity: 0, x: -50 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            scrollTrigger: {
+              trigger: galleryTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
       // Parallax strips animation
       if (topRowRef.current && bottomRowRef.current) {
         const st1 = ScrollTrigger.create({
@@ -101,10 +175,10 @@ const ParallaxGallery = () => {
       >
         {/* Section header */}
         <div className="px-12 mb-12">
-          <p className="font-mono-custom text-xs text-neon-soft/60 uppercase tracking-wider mb-2">
+          <p ref={sectionLabelRef} className="font-mono-custom text-xs text-neon-soft/60 uppercase tracking-wider mb-2">
             {parallaxGalleryConfig.sectionLabel}
           </p>
-          <h2 className="font-display text-4xl md:text-5xl text-white">
+          <h2 ref={sectionTitleRef} className="font-display text-4xl md:text-5xl text-white">
             {parallaxGalleryConfig.sectionTitle}
           </h2>
         </div>
@@ -112,12 +186,12 @@ const ParallaxGallery = () => {
         {/* Top row - moves left */}
         <div
           ref={topRowRef}
-          className="flex gap-4 mb-4 will-change-transform"
+          className="flex gap-2 md:gap-4 mb-2 md:mb-4 will-change-transform px-4 md:px-0"
         >
           {parallaxGalleryConfig.parallaxImagesTop.map((image) => (
             <div
               key={image.id}
-              className="relative flex-shrink-0 w-[400px] h-[250px] overflow-hidden rounded-lg image-hover-scale"
+              className="relative flex-shrink-0 w-[280px] h-[180px] md:w-[400px] md:h-[250px] overflow-hidden rounded-lg image-hover-scale"
             >
               <img
                 src={image.src}
@@ -132,13 +206,13 @@ const ParallaxGallery = () => {
         {/* Bottom row - moves right */}
         <div
           ref={bottomRowRef}
-          className="flex gap-4 will-change-transform"
+          className="flex gap-2 md:gap-4 will-change-transform px-4 md:px-0"
           style={{ transform: 'translateX(-150px)' }}
         >
           {parallaxGalleryConfig.parallaxImagesBottom.map((image) => (
             <div
               key={image.id}
-              className="relative flex-shrink-0 w-[400px] h-[250px] overflow-hidden rounded-lg image-hover-scale"
+              className="relative flex-shrink-0 w-[280px] h-[180px] md:w-[400px] md:h-[250px] overflow-hidden rounded-lg image-hover-scale"
             >
               <img
                 src={image.src}
@@ -176,10 +250,10 @@ const ParallaxGallery = () => {
       >
         {/* Gallery header */}
         <div className="absolute top-12 left-12 z-20">
-          <p className="font-mono-custom text-xs text-neon-soft/60 uppercase tracking-wider mb-2">
+          <p ref={galleryLabelRef} className="font-mono-custom text-xs text-neon-soft/60 uppercase tracking-wider mb-2">
             {parallaxGalleryConfig.galleryLabel}
           </p>
-          <h2 className="font-display text-4xl md:text-5xl text-white">
+          <h2 ref={galleryTitleRef} className="font-display text-4xl md:text-5xl text-white">
             {parallaxGalleryConfig.galleryTitle}
           </h2>
         </div>
@@ -187,7 +261,7 @@ const ParallaxGallery = () => {
         {/* Horizontal scrolling track */}
         <div
           ref={galleryTrackRef}
-          className="flex items-center gap-8 h-full px-12 pt-24 will-change-transform"
+          className="flex items-center gap-4 md:gap-8 h-full px-4 md:px-12 pt-24 will-change-transform"
         >
           {parallaxGalleryConfig.galleryImages.map((image, index) => (
             <div
@@ -195,7 +269,7 @@ const ParallaxGallery = () => {
               className="relative flex-shrink-0 group cursor-pointer"
               style={{ marginTop: index % 2 === 0 ? '0' : '60px' }}
             >
-              <div className="relative w-[450px] h-[300px] overflow-hidden rounded-xl">
+              <div className="relative w-[330px] h-[220px] md:w-[450px] md:h-[300px] overflow-hidden rounded-xl">
                 <img
                   src={image.src}
                   alt={image.title}
